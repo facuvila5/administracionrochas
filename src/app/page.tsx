@@ -12,6 +12,8 @@ import {
   Users,
   Zap,
   Phone,
+  Mail,
+  MapPin,
   ArrowRight,
   ChevronRight,
   MessageCircle,
