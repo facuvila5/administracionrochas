@@ -14,8 +14,7 @@ import {
   Phone,
   ArrowRight,
   ChevronRight,
-  Headphones,
-  DollarSign,
+  MessageCircle,
   ClipboardList,
   FileText,
   MessageSquare,
@@ -338,7 +337,7 @@ function ContactoSection() {
             className="bg-white rounded-2xl p-8 text-center shadow-sm border border-gray-100 hover:shadow-md transition-shadow duration-200"
           >
             <div className="w-14 h-14 rounded-xl bg-dark/5 flex items-center justify-center mx-auto mb-4">
-              <Headphones className="w-7 h-7 text-dark" />
+              <MessageCircle className="w-7 h-7 text-dark" />
             </div>
             <h3 className="font-semibold text-dark mb-1">Instagram</h3>
             <p className="text-gray-500 text-sm">@administracionrochas</p>
