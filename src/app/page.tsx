@@ -11,7 +11,6 @@ import {
   Eye,
   Users,
   Zap,
-  Phone,
   Mail,
   MapPin,
   ArrowRight,
@@ -22,6 +21,29 @@ import {
   MessageSquare,
   CalendarCheck,
 } from "lucide-react"
+import { useScrollReveal } from "@/hooks/use-scroll-reveal"
+import { cn } from "@/lib/utils"
+
+function Reveal({
+  children,
+  className,
+  delay = 0,
+}: {
+  children: React.ReactNode
+  className?: string
+  delay?: number
+}) {
+  const { ref, isVisible } = useScrollReveal(0.1)
+  return (
+    <div
+      ref={ref}
+      className={cn("reveal", isVisible && "visible", className)}
+      style={{ transitionDelay: `${delay}ms` }}
+    >
+      {children}
+    </div>
+  )
+}
 
 function HeroSection() {
   return (
@@ -38,7 +60,8 @@ function HeroSection() {
             Administración de Consorcios
           </span>
           <h1 className="text-4xl sm:text-5xl lg:text-6xl text-white font-bold leading-[1.1] mb-8 tracking-tight">
-            Tu consorcio,{" "}
+            Tu consorcio,
+            <br />
             <span className="text-gold">en buenas manos</span>
           </h1>
           <p className="text-silver text-lg leading-relaxed mb-12 max-w-xl">
@@ -73,7 +96,7 @@ function QuienesSomosSection() {
     <section className="py-28 bg-dark border-t border-white/5">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-20 items-center">
-          <div>
+          <Reveal>
             <span className="inline-flex items-center gap-2 text-gold text-xs font-medium tracking-[0.3em] uppercase mb-6">
               <span className="w-8 h-px bg-gold" />
               Quiénes Somos
@@ -96,24 +119,23 @@ function QuienesSomosSection() {
               administrativa, legal y contable, comprometidos con brindar un
               servicio que inspire tranquilidad, confianza y cercanía.
             </p>
-          </div>
+          </Reveal>
           <div className="grid grid-cols-2 gap-5">
             {[
               { icon: CheckCircle, label: "Administración integral", desc: "Gestión completa de tu consorcio" },
               { icon: Shield, label: "Transparencia total", desc: "Acceso digital a toda la información" },
               { icon: Users, label: "Atención personalizada", desc: "Cada consorcio es único" },
               { icon: Zap, label: "Respuesta rápida", desc: "Resolución ágil de problemas" },
-            ].map((item) => (
-              <div
-                key={item.label}
-                className="metal-surface rounded-2xl p-6 border border-white/5"
-              >
-                <div className="w-12 h-12 rounded-xl metal-inset flex items-center justify-center mb-4 border border-white/5">
-                  <item.icon className="w-5 h-5 text-gold" />
+            ].map((item, i) => (
+              <Reveal key={item.label} delay={i * 100}>
+                <div className="metal-surface rounded-2xl p-6 border border-white/5">
+                  <div className="w-12 h-12 rounded-xl metal-inset flex items-center justify-center mb-4 border border-white/5">
+                    <item.icon className="w-5 h-5 text-gold" />
+                  </div>
+                  <h3 className="font-semibold text-white text-sm mb-1">{item.label}</h3>
+                  <p className="text-silver text-xs leading-relaxed">{item.desc}</p>
                 </div>
-                <h3 className="font-semibold text-white text-sm mb-1">{item.label}</h3>
-                <p className="text-silver text-xs leading-relaxed">{item.desc}</p>
-              </div>
+              </Reveal>
             ))}
           </div>
         </div>
@@ -135,7 +157,7 @@ function ValoresSection() {
   return (
     <section className="py-28 brushed-steel border-t border-white/5">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
+        <Reveal className="text-center mb-16">
           <span className="inline-flex items-center gap-2 text-gold text-xs font-medium tracking-[0.3em] uppercase mb-4 justify-center">
             <span className="w-8 h-px bg-gold" />
             Nuestros Valores
@@ -144,16 +166,18 @@ function ValoresSection() {
           <h2 className="text-3xl sm:text-4xl text-white font-bold tracking-tight">
             Lo que nos define
           </h2>
-        </div>
+        </Reveal>
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-6">
-          {values.map((v) => (
-            <div key={v.title} className="metal-surface rounded-2xl p-8 border border-white/5 hover:border-white/10 transition-all duration-200">
-              <div className="w-14 h-14 rounded-full metal-inset flex items-center justify-center mb-5 border border-white/5">
-                <v.icon className="w-6 h-6 text-gold" />
+          {values.map((v, i) => (
+            <Reveal key={v.title} delay={i * 80}>
+              <div className="metal-surface rounded-2xl p-8 border border-white/5 hover:border-white/10 transition-all duration-200">
+                <div className="w-14 h-14 rounded-full metal-inset flex items-center justify-center mb-5 border border-white/5">
+                  <v.icon className="w-6 h-6 text-gold" />
+                </div>
+                <h3 className="text-lg font-semibold text-white mb-2">{v.title}</h3>
+                <p className="text-silver text-sm leading-relaxed">{v.desc}</p>
               </div>
-              <h3 className="text-lg font-semibold text-white mb-2">{v.title}</h3>
-              <p className="text-silver text-sm leading-relaxed">{v.desc}</p>
-            </div>
+            </Reveal>
           ))}
         </div>
       </div>
@@ -217,7 +241,7 @@ function ServiciosSection() {
   return (
     <section className="py-28 bg-dark border-t border-white/5">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
+        <Reveal className="text-center mb-16">
           <span className="inline-flex items-center gap-2 text-gold text-xs font-medium tracking-[0.3em] uppercase mb-4 justify-center">
             <span className="w-8 h-px bg-gold" />
             Nuestros Servicios
@@ -229,30 +253,29 @@ function ServiciosSection() {
           <p className="text-silver max-w-xl mx-auto">
             Soluciones completas para la administración de tu consorcio.
           </p>
-        </div>
+        </Reveal>
         <div className="grid sm:grid-cols-2 gap-6">
-          {categories.map((cat) => (
-            <div
-              key={cat.title}
-              className="metal-surface rounded-2xl p-8 border border-white/5 hover:border-gold/10 transition-all duration-300"
-            >
-              <div className="flex items-start gap-4 mb-6">
-                <div className="w-14 h-14 rounded-full elevator-button flex items-center justify-center shrink-0 border border-white/5">
-                  <span className="text-gold font-bold text-sm">{cat.number}</span>
+          {categories.map((cat, i) => (
+            <Reveal key={cat.title} delay={i * 120}>
+              <div className="metal-surface rounded-2xl p-8 border border-white/5 hover:border-gold/10 transition-all duration-300">
+                <div className="flex items-start gap-4 mb-6">
+                  <div className="w-14 h-14 rounded-full elevator-button flex items-center justify-center shrink-0 border border-white/5">
+                    <span className="text-gold font-bold text-sm">{cat.number}</span>
+                  </div>
+                  <div>
+                    <h3 className="text-xl font-semibold text-white leading-tight">{cat.title}</h3>
+                  </div>
                 </div>
-                <div>
-                  <h3 className="text-xl font-semibold text-white leading-tight">{cat.title}</h3>
-                </div>
+                <ul className="space-y-3 ml-[4.5rem]">
+                  {cat.items.map((item) => (
+                    <li key={item} className="flex items-start gap-2 text-silver text-sm">
+                      <ChevronRight className="w-4 h-4 text-gold/60 shrink-0 mt-0.5" />
+                      {item}
+                    </li>
+                  ))}
+                </ul>
               </div>
-              <ul className="space-y-3 ml-[4.5rem]">
-                {cat.items.map((item) => (
-                  <li key={item} className="flex items-start gap-2 text-silver text-sm">
-                    <ChevronRight className="w-4 h-4 text-gold/60 shrink-0 mt-0.5" />
-                    {item}
-                  </li>
-                ))}
-              </ul>
-            </div>
+            </Reveal>
           ))}
         </div>
       </div>
@@ -265,7 +288,7 @@ function TecnologiaSection() {
     <section className="py-28 brushed-steel border-t border-white/5">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-20 items-center">
-          <div>
+          <Reveal>
             <span className="inline-flex items-center gap-2 text-gold text-xs font-medium tracking-[0.3em] uppercase mb-6">
               <span className="w-8 h-px bg-gold" />
               Tecnología
@@ -294,14 +317,16 @@ function TecnologiaSection() {
                 </div>
               ))}
             </div>
-          </div>
-          <div className="metal-surface rounded-3xl p-14 border border-white/5 text-center">
-            <div className="w-28 h-28 rounded-full metal-inset flex items-center justify-center mx-auto mb-8 border border-white/5">
-              <Cpu className="w-12 h-12 text-gold" />
+          </Reveal>
+          <Reveal delay={150}>
+            <div className="metal-surface rounded-3xl p-14 border border-white/5 text-center">
+              <div className="w-28 h-28 rounded-full metal-inset flex items-center justify-center mx-auto mb-8 border border-white/5">
+                <Cpu className="w-12 h-12 text-gold" />
+              </div>
+              <h3 className="text-3xl font-bold mb-3 tracking-tight">OCTOPUS</h3>
+              <p className="text-silver text-sm">Tu consorcio conectado</p>
             </div>
-            <h3 className="text-3xl font-bold mb-3 tracking-tight">OCTOPUS</h3>
-            <p className="text-silver text-sm">Tu consorcio conectado</p>
-          </div>
+          </Reveal>
         </div>
       </div>
     </section>
@@ -312,7 +337,7 @@ function ContactoSection() {
   return (
     <section className="py-28 bg-dark border-t border-white/5">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-        <div className="text-center mb-16">
+        <Reveal className="text-center mb-16">
           <span className="inline-flex items-center gap-2 text-gold text-xs font-medium tracking-[0.3em] uppercase mb-4 justify-center">
             <span className="w-8 h-px bg-gold" />
             Contacto
@@ -325,42 +350,43 @@ function ContactoSection() {
             Consultanos sin compromiso. Cada consorcio es único y nuestras
             soluciones también lo son.
           </p>
-        </div>
+        </Reveal>
         <div className="grid md:grid-cols-3 gap-6 max-w-4xl mx-auto">
-          <a
-            href="mailto:info@administracionrochas.com"
-            className="metal-surface rounded-2xl p-8 text-center border border-white/5 hover:border-gold/20 transition-all duration-200"
-          >
-            <div className="w-14 h-14 rounded-full elevator-button flex items-center justify-center mx-auto mb-5 border border-white/5">
-              <Mail className="w-5 h-5 text-gold" />
-            </div>
-            <h3 className="font-semibold text-white mb-1">Email</h3>
-            <p className="text-silver text-xs">info@administracionrochas.com</p>
-          </a>
-          <a
-            href="https://maps.google.com/?q=Córdoba+1109+Martinez+San+Isidro"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="metal-surface rounded-2xl p-8 text-center border border-white/5 hover:border-gold/20 transition-all duration-200"
-          >
-            <div className="w-14 h-14 rounded-full elevator-button flex items-center justify-center mx-auto mb-5 border border-white/5">
-              <MapPin className="w-5 h-5 text-gold" />
-            </div>
-            <h3 className="font-semibold text-white mb-1">Dirección</h3>
-            <p className="text-silver text-xs">Córdoba 1109<br />Martínez, San Isidro</p>
-          </a>
-          <a
-            href="https://www.instagram.com/administracionrochas"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="metal-surface rounded-2xl p-8 text-center border border-white/5 hover:border-gold/20 transition-all duration-200"
-          >
-            <div className="w-14 h-14 rounded-full elevator-button flex items-center justify-center mx-auto mb-5 border border-white/5">
-              <MessageCircle className="w-5 h-5 text-gold" />
-            </div>
-            <h3 className="font-semibold text-white mb-1">Instagram</h3>
-            <p className="text-silver text-xs">@administracionrochas</p>
-          </a>
+          {[
+            {
+              icon: Mail,
+              title: "Email",
+              detail: "info@administracionrochas.com",
+              href: "mailto:info@administracionrochas.com",
+            },
+            {
+              icon: MapPin,
+              title: "Dirección",
+              detail: "Córdoba 1109\nMartínez, San Isidro",
+              href: "https://maps.google.com/?q=Córdoba+1109+Martinez+San+Isidro",
+            },
+            {
+              icon: MessageCircle,
+              title: "Instagram",
+              detail: "@administracionrochas",
+              href: "https://www.instagram.com/administracionrochas",
+            },
+          ].map((card, i) => (
+            <Reveal key={card.title} delay={i * 100}>
+              <a
+                href={card.href}
+                target={card.href.startsWith("http") ? "_blank" : undefined}
+                rel={card.href.startsWith("http") ? "noopener noreferrer" : undefined}
+                className="metal-surface rounded-2xl p-8 text-center border border-white/5 hover:border-gold/20 transition-all duration-200 block"
+              >
+                <div className="w-14 h-14 rounded-full elevator-button flex items-center justify-center mx-auto mb-5 border border-white/5">
+                  <card.icon className="w-5 h-5 text-gold" />
+                </div>
+                <h3 className="font-semibold text-white mb-1">{card.title}</h3>
+                <p className="text-silver text-xs whitespace-pre-line">{card.detail}</p>
+              </a>
+            </Reveal>
+          ))}
         </div>
       </div>
     </section>
