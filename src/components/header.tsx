@@ -42,9 +42,11 @@ export function Header() {
         <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
           <div className="flex items-center justify-between h-20">
             <Link href="/" className="flex items-center gap-3">
-              <div className="w-11 h-11 rounded-full metal-button flex items-center justify-center border border-white/5">
-                <span className="text-gold font-bold text-xl leading-none">R</span>
-              </div>
+              <img
+                src="/logo-rochas.png"
+                alt="Administración Rochas"
+                className="w-11 h-11 rounded-full object-cover border border-white/10"
+              />
               <div className="hidden sm:block">
                 <span className="font-semibold text-white text-lg tracking-tight">
                   Administración Rochas

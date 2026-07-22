@@ -23,9 +23,11 @@ export function Footer() {
         <div className="py-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-x-12 gap-y-10">
           <div>
             <div className="flex items-center gap-3 mb-6">
-              <div className="w-11 h-11 rounded-full metal-button flex items-center justify-center border border-white/5">
-                <span className="text-gold font-bold text-xl leading-none">R</span>
-              </div>
+              <img
+                src="/logo-rochas.png"
+                alt="Administración Rochas"
+                className="w-11 h-11 rounded-full object-cover border border-white/10"
+              />
               <div>
                 <span className="font-semibold text-white text-lg tracking-tight">Administración Rochas</span>
                 <span className="block text-[10px] tracking-[0.25em] text-silver uppercase -mt-0.5">
